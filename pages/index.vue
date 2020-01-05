@@ -1,15 +1,12 @@
 <template>
     <div>
-        <div :for="(product, index) in product_list">
-            <ul>
-                <li>{{product}}</li>
-            </ul>
-            <button @click="removeProductByCode(index)"></button>
+        <div v-for="(product, index) in product_list" :key="index">
+            <p>{{ product }}</p>
         </div>
         <form action="" @submit.prevent="addProductToCart">
-            code: <input type="text" v-model="code"> <br>
-            name: <input type="text" v-model="name"> <br>
-            price: <input type="text" v-model="price"> <br>
+            code: <input type="text" v-model="form_code" autofocus> <br>
+            name: <input type="text" v-model="form_name"> <br>
+            price: <input type="text" v-model="form_price"> <br>
             <button type="submit"> persist </button>
         </form>
     </div>
@@ -18,25 +15,22 @@
 <script>
 export default {
     data() {
-        return {
+        return {            
             product_list: []
-        }
-    },
-    watch: {
-        product_list(product_list) {
-            this.product_list = product_list;
         }
     },
 
     methods: {
         addProductToCart() {
-            this.product_list.push({
-                code: this.code,
-                name: this.name,
-                price: this.price
-            })
-    
+            this.product_list.push(
+                {
+                    code: this.form_code,
+                    name: this.form_name,
+                    price: this.form_price
+                }
+            );
             this.saveProducts();
+            return;
         },
 
         removeProductByCode(index) {
